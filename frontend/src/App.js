@@ -7,7 +7,7 @@ import Result from "./pages/Result.jsx";
 function App() {
   return (
     <Router>
-      <div className="bg-gray-900 text-white min-h-screen">
+      <div className="bg-gray-200 text-white min-h-screen">
         <Navbar />
         <div className="container mx-auto py-10">
           <Routes>
