@@ -5,7 +5,7 @@ const Home = () => {
     <div className="text-center">
 
       <section className="bg-blue-400 text-white py-20">
-        <h1 className="text-5xl font-extrabold mb-4">Welcome to Grundfos</h1>
+        <h1 className="text-5xl font-extrabold mb-4">Welcome to Chiller Evolution</h1>
         <p className="text-lg text-gray-200 mb-8">
           Global leader in advanced pump solutions and water technology.
         </p>
