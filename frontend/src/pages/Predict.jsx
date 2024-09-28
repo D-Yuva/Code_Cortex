@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 
 const Predict = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -26,17 +26,14 @@ const Predict = () => {
       setLoading(true);
       setMessage("");
 
-      // Send file to backend
-      const response = await axios.post("/api/predict", formData, {
+      const response = await axios.post("http://localhost:5000/api/predict", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      // Handle response
       if (response.status === 200) {
-        // Redirect to the results page
-        navigate("/results", { state: { data: response.data } });
+        navigate("/result", { state: { data: response.data } });
       } else {
         setMessage("Something went wrong!");
       }
@@ -51,8 +48,7 @@ const Predict = () => {
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold text-blue-600 mb-4">Predict Efficiency</h1>
       <p className="text-gray-600 mb-6">
-        Upload a CSV or Excel file containing the plant details, and we will
-        predict the chiller plant efficiency.
+        Upload a CSV or Excel file containing the plant details, and we will predict the chiller plant efficiency.
       </p>
 
       <form onSubmit={handleSubmit}>
