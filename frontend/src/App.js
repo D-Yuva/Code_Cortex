@@ -5,6 +5,7 @@ import Predict from "./pages/Predict.jsx";
 import Results from "./pages/Result.jsx";
 import InteractiveGraph from "./pages/InteractiveGraph.jsx";
 import FileUploader from "./pages/FileUploader.jsx";
+import Assistant from "./pages/AIAssistant.jsx";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/result" element={<Results />} />
             <Route path="/graph" element={<InteractiveGraph />} />
             <Route path="/upload" element={<FileUploader />} />
+            <Route path="/assistant" element={<Assistant />} />
           </Routes>
         </div>
       </div>
