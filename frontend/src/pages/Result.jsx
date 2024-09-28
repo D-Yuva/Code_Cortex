@@ -1,82 +1,70 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { useLocation, useNavigate } from "react-router-dom";
+import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-const Result = () => {
+const Results = () => {
   const location = useLocation();
-  const { data } = location.state || {}; // Receive data passed from Predict page
-  const [chartData, setChartData] = useState({});
+  const { data } = location.state || {};
+  const [chartData, setChartData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (data) {
-      // Extract the specific fields you want to display (e.g., RT and kW_RT)
-      const labels = data.map((row) => row["RT"]); // Assuming "RT" is one field
-      const efficiencyData = data.map((row) => row["kW_RT"]); // Assuming "kW_RT" is the other field
+      const groupedData = data.Predicted_Efficiency.reduce((acc, efficiency, index) => {
+        const timeCategory = data.Time_Category[index];
+        if (!acc[timeCategory]) {
+          acc[timeCategory] = [];
+        }
+        acc[timeCategory].push(efficiency);
+        return acc;
+      }, {});
 
-      setChartData({
-        labels,
-        datasets: [
-          {
-            label: "Plant Efficiency (kW/RT)",
-            data: efficiencyData,
-            borderColor: "rgba(75, 192, 192, 1)",
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
-            borderWidth: 2,
-            fill: true,
-          },
-        ],
+      const formattedData = Object.keys(groupedData).map((key) => {
+        const efficiencies = groupedData[key];
+        const mean = efficiencies.reduce((sum, val) => sum + val, 0) / efficiencies.length;
+
+        return {
+          Time_Category: `Category ${key}`,
+          mean,
+        };
       });
+
+      setChartData(formattedData);
     }
   }, [data]);
+
+  const goToInteractiveGraph = () => {
+    navigate("/graph");
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold text-blue-600 mb-4">Efficiency Prediction Results</h1>
       <p className="text-gray-600 mb-6">
-        The following graph shows the efficiency of the chiller plant based on the uploaded data.
+        The following graph shows the predicted efficiency of the chiller plant categorized by time.
       </p>
 
-      {chartData && chartData.labels ? (
-        <Line
-          data={chartData}
-          options={{
-            responsive: true,
-            plugins: {
-              legend: {
-                position: "top",
-              },
-              title: {
-                display: true,
-                text: "Chiller Plant Efficiency (kW/RT) vs RT",
-              },
-            },
-          }}
-        />
+      {chartData.length > 0 ? (
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="Time_Category" />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="mean" stroke="#82ca9d" activeDot={{ r: 8 }} />
+          </LineChart>
+        </ResponsiveContainer>
       ) : (
         <p className="text-gray-600">Loading chart data...</p>
       )}
+      <button
+        onClick={goToInteractiveGraph}
+        className="mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+      >
+        Go to Interactive Graph
+      </button>
     </div>
   );
 };
 
-export default Result;
+export default Results;
