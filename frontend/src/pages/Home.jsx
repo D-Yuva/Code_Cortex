@@ -17,7 +17,7 @@ const Home = () => {
         </a>
       </section>
 
-      <section className="py-16 px-6">
+      <section className="py-16 px-6 relative">
         <h2 className="text-4xl font-bold text-blue-600 mb-6">About Grundfos</h2>
         <p className="text-lg text-gray-500 max-w-3xl mx-auto mb-8">
           Grundfos is a global leader in water technology, offering innovative
@@ -26,6 +26,7 @@ const Home = () => {
           energy and water consumption, helping to address the most critical
           water and energy challenges globally.
         </p>
+        
         <div className="relative">
           <video
             className="w-full h-auto rounded-lg shadow-lg"
@@ -37,8 +38,15 @@ const Home = () => {
             <source src="https://grundfos.scene7.com/is/content/grundfos/grundfos-homepage-local-10mb-0x720-3000k" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+
+          <div className="absolute inset-0 bg-black opacity-30 rounded-lg"></div>
+          
+          <div className="absolute inset-0 flex items-center justify-center">
+            <h3 className="text-2xl font-bold text-white">Innovating Water Solutions</h3>
+          </div>
         </div>
       </section>
+
 
       <section id="services" className="bg-gray-100 py-16 px-6">
         <h2 className="text-4xl font-bold text-blue-600 mb-10">Our Services</h2>
