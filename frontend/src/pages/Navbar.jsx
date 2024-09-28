@@ -19,6 +19,9 @@ const Navbar = () => {
           <li>
             <Link to="/predict" className="hover:text-blue-300 font-semibold">Predict</Link>
           </li>
+          <li>
+            <Link to="/upload" className="hover:text-blue-300 font-semibold">Efficiency</Link>
+          </li>
         </ul>
       </div>
     </nav>
