@@ -2,7 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./pages/Navbar.jsx";
 import Home from "./pages/Home.jsx";
 import Predict from "./pages/Predict.jsx";
-import Result from "./pages/Result.jsx";
+import Results from "./pages/Result.jsx";
+import InteractiveGraph from "./pages/InteractiveGraph.jsx";
+import FileUploader from "./pages/FileUploader.jsx";
 
 function App() {
   return (
@@ -13,7 +15,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/predict" element={<Predict />} />
-            <Route path="/result" element={<Result />} />
+            <Route path="/result" element={<Results />} />
+            <Route path="/graph" element={<InteractiveGraph />} />
+            <Route path="/upload" element={<FileUploader />} />
           </Routes>
         </div>
       </div>
